@@ -18,14 +18,16 @@ func usage(msg string, code int) {
 }
 
 func main() {
-	if len(os.Args) != 2 {
+	if len(os.Args) < 2 {
 		usage("invalid args", 1)
 	}
 
-	ns, err := strconv.ParseInt(os.Args[1], 10, 64)
-	if err != nil {
-		usage(fmt.Sprintf("could not convert nanoseconds to strings: %v", err), 2)
-	}
+	for _, nanostr := range os.Args[1:] {
+		ns, err := strconv.ParseInt(nanostr, 10, 64)
+		if err != nil {
+			usage(fmt.Sprintf("could not convert nanoseconds to strings: %v", err), 2)
+		}
 
-	fmt.Printf("%v nanoseconds is %v", os.Args[1], time.Duration(ns))
+		fmt.Printf("%v nanoseconds is %v\n", os.Args[1], time.Duration(ns))
+	}
 }
